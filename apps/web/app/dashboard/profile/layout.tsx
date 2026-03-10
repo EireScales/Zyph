@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const metadata = {
   title: 'Your Zyph Profile | Zyph',
   description: 'What the AI has learned about you',

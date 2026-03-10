@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -98,7 +99,6 @@ export default function ProfilePage() {
   const avgConfidence = insights.length > 0
     ? (insights.reduce((s, i) => s + (i.confidence_score ?? 0), 0) / insights.length) * 100
     : 0;
-  const lastUpdated = insights[0]?.updated_at ?? recentObservations[0]?.captured_at;
   const byType = insights.reduce<Record<string, InsightRow[]>>((acc, i) => {
     const t = i.insight_type;
     if (!acc[t]) acc[t] = [];

@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 /** Shared stat card: glass style + optional colored top border */
 export function StatCard({
   label,

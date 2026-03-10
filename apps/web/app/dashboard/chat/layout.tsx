@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const metadata = {
   title: 'Chat | Zyph',
   description: 'Talk to your AI',

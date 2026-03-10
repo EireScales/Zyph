@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const metadata = {
   title: 'Settings | Zyph',
   description: 'Zyph settings',
