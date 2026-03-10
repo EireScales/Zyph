@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} - no redirects/rewrites/headers to avoid route src/source errors */
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -6,6 +6,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
