@@ -1,6 +1,16 @@
 {
-  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/analyse/route": "app/api/analyse/route.js",
   "/api/chat/route": "app/api/chat/route.js",
+  "/api/profile/clear-data/route": "app/api/profile/clear-data/route.js",
+  "/api/conversations/route": "app/api/conversations/route.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/page": "app/page.js",
+  "/auth/page": "app/auth/page.js",
+  "/onboarding/page": "app/onboarding/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/chat/page": "app/dashboard/chat/page.js"
+  "/dashboard/chat/page": "app/dashboard/chat/page.js",
+  "/dashboard/insights/page": "app/dashboard/insights/page.js",
+  "/dashboard/settings/page": "app/dashboard/settings/page.js",
+  "/dashboard/profile/page": "app/dashboard/profile/page.js"
 }
