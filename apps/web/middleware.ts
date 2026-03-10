@@ -1,71 +1,52 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-type ResponseCookie = Parameters<NextResponse['cookies']['set']>[2];
-
-const PUBLIC_PATHS = ['/', '/auth'];
-const ONBOARDING_PATH = '/onboarding';
-const DASHBOARD_PATH = '/dashboard';
-
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
-    request: { headers: request.headers },
-  });
+  try {
+    let supabaseResponse = NextResponse.next({
+      request,
+    });
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return response;
-  }
-
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      setAll(cookiesToSet: { name: string; value: string; options?: ResponseCookie }[]) {
-        cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options)
-        );
-      },
-    },
-  });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const pathname = request.nextUrl.pathname;
-  const isPublic = PUBLIC_PATHS.some((p) => p === pathname || pathname.startsWith(p + '/'));
-  const isOnboarding = pathname === ONBOARDING_PATH || pathname.startsWith(ONBOARDING_PATH + '/');
-  const isAuthPage = pathname === '/auth' || pathname.startsWith('/auth/');
-
-  if (user) {
-    if (isAuthPage) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('onboarding_complete')
-        .eq('id', user.id)
-        .single();
-
-      if (profile?.onboarding_complete) {
-        return NextResponse.redirect(new URL(DASHBOARD_PATH, request.url));
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
+            cookiesToSet.forEach(({ name, value }) =>
+              request.cookies.set(name, value)
+            );
+            supabaseResponse = NextResponse.next({ request });
+            cookiesToSet.forEach(({ name, value, options }) =>
+              supabaseResponse.cookies.set(name, value, options)
+            );
+          },
+        },
       }
-      return NextResponse.redirect(new URL(ONBOARDING_PATH, request.url));
+    );
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const isAuthPage = request.nextUrl.pathname.startsWith('/auth');
+    const isOnboarding = request.nextUrl.pathname.startsWith('/onboarding');
+    const isDashboard = request.nextUrl.pathname.startsWith('/dashboard');
+    const isPublic = request.nextUrl.pathname === '/';
+
+    if (isDashboard && !user) {
+      return NextResponse.redirect(new URL('/auth', request.url));
     }
 
-  } else {
-    if (isOnboarding || pathname === DASHBOARD_PATH || pathname.startsWith(DASHBOARD_PATH + '/')) {
-      const signInUrl = new URL('/auth', request.url);
-      signInUrl.searchParams.set('redirect', pathname);
-      return NextResponse.redirect(signInUrl);
-    }
+    return supabaseResponse;
+  } catch (e) {
+    return NextResponse.next();
   }
-
-  return response;
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 };
