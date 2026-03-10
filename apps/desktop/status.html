@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zyph</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #0a0a0a;
+        color: #f0f0f0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.1); }
+      }
+      .text { font-size: 0.9375rem; font-weight: 500; }
+    </style>
+  </head>
+  <body>
+    <div class="status">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="text">Zyph is running</span>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "env": { "browser": true, "es2022": true },
+  "extends": ["eslint:recommended", "prettier"],
+  "parserOptions": { "ecmaVersion": "latest", "sourceType": "module" },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "extends": ["eslint:recommended", "prettier"]
+    }
+  ]
+}

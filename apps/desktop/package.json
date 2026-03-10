@@ -1,0 +1,36 @@
+{
+  "name": "zyph-desktop",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "pnpm run build && concurrently \"pnpm run dev:vite\" \"electron .\"",
+    "dev:vite": "vite",
+    "dev:electron": "tsc -p tsconfig.electron.json && electron .",
+    "build": "vite build && tsc -p tsconfig.electron.json",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "@zyph/shared": "workspace:*",
+    "active-win": "^7.6.0",
+    "electron-store": "^8.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tesseract.js": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "wait-on": "^7.2.0",
+    "electron": "^28.2.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.0"
+  }
+}
